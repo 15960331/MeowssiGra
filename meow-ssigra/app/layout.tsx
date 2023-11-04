@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import { Providers } from "./providers";
+import type { Metadata } from 'next';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: "MeowssiGra",
-  description: "Image viewer",
+  title: 'MeowssiGra',
+  description: 'Image viewer',
 };
 
 type Props = {
