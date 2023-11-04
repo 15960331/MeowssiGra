@@ -1,24 +1,21 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import type { Metadata } from "next";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: 'MeowssiGra',
-  description: 'Image viewer',
-}
+  title: "MeowssiGra",
+  description: "Image viewer",
+};
 
 type Props = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
-export default function RootLayout({
-  children,
-}: Props) {
+export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
-  )
+  );
 }
