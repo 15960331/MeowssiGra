@@ -1,4 +1,4 @@
-class ImageReader {
+export class ImageReader {
   private reader: FileReader;
 
   constructor() {

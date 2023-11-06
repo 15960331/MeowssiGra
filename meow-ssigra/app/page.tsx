@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Img } from '@chakra-ui/react';
 
+import { ImageReader } from '@/classes/ImageReader';
 import { FileInput } from '@/components/FileInput';
 
 export default function Home() {
