@@ -41,9 +41,11 @@ export default function Home() {
   return (
     <>
       <Header>
+        <FileInput onChange={readImages} />
         <Button
           size="sm"
           width={100}
+          isDisabled
           onClick={toggleViewMode}
         >
           {viewMode === 'normal' ? 'Normal' : 'Manga'}
@@ -57,10 +59,6 @@ export default function Home() {
         </Button>
       </Header>
       <main>
-        <FileInput
-          onChange={readImages}
-          // onDrop={handleDrop}
-        />
         <ImageView
           src={image}
           fitMode={fitMode}
