@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 
 type Props = {
-  children: React.ReactElement;
+  children: React.ReactElement[];
 };
 
 export const Header: React.FC<Props> = ({ children }) => {
