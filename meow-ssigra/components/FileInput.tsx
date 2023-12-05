@@ -8,6 +8,8 @@ export const FileInput: React.FC<Props> = ({ onChange }) => {
   return (
     <Input
       type="file"
+      accept="image/*"
+      multiple
       size="sm"
       width="500px"
       border="50%"

@@ -1,47 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { Button, IconButton, Text } from '@chakra-ui/react';
+import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 
-import { FitMode, ViewMode } from '@/types';
-import { ImageReader } from '@/classes/ImageReader';
 import { FileInput } from '@/components/FileInput';
 import { ImageView } from '@/components/ImageView';
-import { Button } from '@chakra-ui/react';
 import { Header } from '@/components/Header';
+import { useImages } from '@/hooks/useImages';
+import { useViewMode } from '@/hooks/useViewMode';
+import { useFitMode } from '@/hooks/useFitMode';
+import { useMove } from '@/hooks/useMove';
+import { PageCounter } from '@/components/PageCounter';
 
 export default function Home() {
-  const [image, setImage] = useState('');
-  const [viewMode, setViewMode] = useState<ViewMode>('normal');
-  const [fitMode, setFitMode] = useState<FitMode>('vertical');
+  const { images, readImages } = useImages();
+  const { viewMode, toggleViewMode } = useViewMode();
+  const { fitMode, toggleFitMode } = useFitMode();
+  const { imageIndex, canMoveForward, canMoveBack, moveForward, moveBack, resetIndex } = useMove({
+    imageCount: images.length,
+  });
 
-  const readImages = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
-
-    const reader = new ImageReader();
-    reader.read(file, (result) => {
-      setImage(result);
-    });
-  };
-
-  const toggleViewMode = () => {
-    setViewMode((prev) => {
-      if (prev === 'normal') return 'manga';
-      return 'normal';
-    });
-  };
-
-  const toggleFitMode = () => {
-    setFitMode((prev) => {
-      if (prev === 'vertical') return 'horizontal';
-      return 'vertical';
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    readImages(e);
+    resetIndex();
   };
 
   return (
     <>
       <Header>
-        <FileInput onChange={readImages} />
+        <FileInput onChange={handleChange} />
         <Button
           size="sm"
           width={100}
@@ -57,10 +44,29 @@ export default function Home() {
         >
           {fitMode === 'vertical' ? 'Vertical' : 'Horizontal'}
         </Button>
+
+        <IconButton
+          aria-label="back button"
+          size="sm"
+          icon={<ArrowBackIcon />}
+          isDisabled={!canMoveBack}
+          onClick={moveBack}
+        />
+        <IconButton
+          aria-label="forward button"
+          size="sm"
+          icon={<ArrowForwardIcon />}
+          isDisabled={!canMoveForward}
+          onClick={moveForward}
+        />
+        <PageCounter
+          currentPage={imageIndex === 0 ? 0 : imageIndex + 1}
+          totalPage={images.length}
+        />
       </Header>
       <main>
         <ImageView
-          src={image}
+          src={images[imageIndex]}
           fitMode={fitMode}
         />
       </main>
