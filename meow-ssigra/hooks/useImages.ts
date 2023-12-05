@@ -1,17 +1,15 @@
 import { useCallback, useState } from 'react';
-import { ImageReader } from '@/classes/ImageReader';
+import { readFiles } from '@/utils/readFiles';
 
 export const useImages = () => {
   const [images, setImages] = useState<string[]>([]);
 
-  const readImages = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const readImages = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files) return;
 
-    const reader = new ImageReader();
-    reader.read(files, (result) => {
-      setImages(result);
-    });
+    const result = await readFiles(files);
+    setImages(result);
   }, []);
 
   return { images, readImages };

@@ -7,27 +7,33 @@ type Props = {
 export const useMove = ({ imageCount }: Props) => {
   const [imageIndex, setImageIndex] = useState(0);
 
+  const canMoveForward = imageIndex < imageCount - 1;
+  const canMoveBack = imageIndex > 0;
+
   const moveForward = useCallback(() => {
     setImageIndex((prev) => {
-      const newIndex = prev + 1;
-      if (newIndex >= imageCount) return prev;
-
-      return newIndex;
+      if (!canMoveForward) return prev;
+      return prev + 1;
     });
-  }, [imageCount]);
+  }, [canMoveForward]);
 
   const moveBack = useCallback(() => {
     setImageIndex((prev) => {
-      const newIndex = prev - 1;
-      if (newIndex < 0) return prev;
-
-      return newIndex;
+      if (!canMoveBack) return prev;
+      return prev - 1;
     });
-  }, []);
+  }, [canMoveBack]);
 
   const resetIndex = useCallback(() => {
     setImageIndex(0);
   }, []);
 
-  return { imageIndex, moveForward, moveBack, resetIndex };
+  return {
+    imageIndex,
+    canMoveForward,
+    canMoveBack,
+    moveForward,
+    moveBack,
+    resetIndex,
+  };
 };

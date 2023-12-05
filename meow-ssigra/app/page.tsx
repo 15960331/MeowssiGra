@@ -15,7 +15,9 @@ export default function Home() {
   const { images, readImages } = useImages();
   const { viewMode, toggleViewMode } = useViewMode();
   const { fitMode, toggleFitMode } = useFitMode();
-  const { imageIndex, moveForward, moveBack, resetIndex } = useMove({ imageCount: images.length });
+  const { imageIndex, canMoveForward, canMoveBack, moveForward, moveBack, resetIndex } = useMove({
+    imageCount: images.length,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     readImages(e);
@@ -46,16 +48,18 @@ export default function Home() {
           aria-label="back button"
           size="sm"
           icon={<ArrowBackIcon />}
+          isDisabled={!canMoveBack}
           onClick={moveBack}
         />
         <IconButton
           aria-label="forward button"
           size="sm"
           icon={<ArrowForwardIcon />}
+          isDisabled={!canMoveForward}
           onClick={moveForward}
         />
         <Text>
-          {imageIndex}/{images.length}
+          {imageIndex + 1}/{images.length}
         </Text>
       </Header>
       <main>
