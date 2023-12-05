@@ -10,6 +10,7 @@ import { useImages } from '@/hooks/useImages';
 import { useViewMode } from '@/hooks/useViewMode';
 import { useFitMode } from '@/hooks/useFitMode';
 import { useMove } from '@/hooks/useMove';
+import { PageCounter } from '@/components/PageCounter';
 
 export default function Home() {
   const { images, readImages } = useImages();
@@ -58,9 +59,10 @@ export default function Home() {
           isDisabled={!canMoveForward}
           onClick={moveForward}
         />
-        <Text>
-          {imageIndex + 1}/{images.length}
-        </Text>
+        <PageCounter
+          currentPage={imageIndex === 0 ? 0 : imageIndex + 1}
+          totalPage={images.length}
+        />
       </Header>
       <main>
         <ImageView
