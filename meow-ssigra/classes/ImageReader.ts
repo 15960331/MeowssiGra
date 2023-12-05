@@ -1,16 +1,24 @@
+import { resourceLimits } from 'worker_threads';
+
 export class ImageReader {
-  private reader: FileReader;
+  public read(fileList: FileList, onLoad: (result: string[]) => void): void {
+    const files = Array.from(fileList);
 
-  constructor() {
-    this.reader = new FileReader();
-  }
+    files.forEach((file, index) => {
+      const reader = new FileReader();
+      const result: string[] = [];
 
-  public read(file: Blob, onLoad: (result: string) => void): void {
-    this.reader.onload = () => {
-      if (typeof this.reader.result !== 'string') return;
-      onLoad(this.reader.result);
-    };
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          result.push(reader.result);
+        }
 
-    this.reader.readAsDataURL(file);
+        if (index === files.length - 1) {
+          onLoad(result);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
   }
 }
