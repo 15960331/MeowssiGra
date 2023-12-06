@@ -6,6 +6,7 @@ import { useImages } from '@/hooks/useImages';
 import { useViewMode } from '@/hooks/useViewMode';
 import { useFitMode } from '@/hooks/useFitMode';
 import { useMove } from '@/hooks/useMove';
+import { useKeyPress } from '@/hooks/useKeyPress';
 
 export default function Home() {
   const { images, readImages } = useImages();
@@ -14,6 +15,11 @@ export default function Home() {
   const { imageIndex, canMoveForward, canMoveBack, moveForward, moveBack, resetIndex } = useMove({
     imageCount: images.length,
   });
+
+  useKeyPress({ key: 'a', onPress: moveBack });
+  useKeyPress({ key: 'd', onPress: moveForward });
+  // useKeyPress({ key: 'v', onPress: toggleViewMode });
+  useKeyPress({ key: 'f', onPress: toggleFitMode });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     readImages(e);
