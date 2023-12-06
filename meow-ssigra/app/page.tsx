@@ -60,7 +60,7 @@ export default function Home() {
           onClick={moveForward}
         />
         <PageCounter
-          currentPage={imageIndex === 0 ? 0 : imageIndex + 1}
+          currentPage={images.length === 0 ? 0 : imageIndex + 1}
           totalPage={images.length}
         />
       </Header>
