@@ -1,16 +1,11 @@
 'use client';
 
-import { Button, IconButton, Text } from '@chakra-ui/react';
-import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
-
-import { FileInput } from '@/components/FileInput';
 import { ImageView } from '@/components/ImageView';
 import { Header } from '@/components/Header';
 import { useImages } from '@/hooks/useImages';
 import { useViewMode } from '@/hooks/useViewMode';
 import { useFitMode } from '@/hooks/useFitMode';
 import { useMove } from '@/hooks/useMove';
-import { PageCounter } from '@/components/PageCounter';
 
 export default function Home() {
   const { images, readImages } = useImages();
@@ -20,50 +15,38 @@ export default function Home() {
     imageCount: images.length,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     readImages(e);
     resetIndex();
   };
 
   return (
     <>
-      <Header>
-        <FileInput onChange={handleChange} />
-        <Button
-          size="sm"
-          width={100}
-          isDisabled
-          onClick={toggleViewMode}
-        >
-          {viewMode === 'normal' ? 'Normal' : 'Manga'}
-        </Button>
-        <Button
-          size="sm"
-          width={100}
-          onClick={toggleFitMode}
-        >
-          {fitMode === 'vertical' ? 'Vertical' : 'Horizontal'}
-        </Button>
-
-        <IconButton
-          aria-label="back button"
-          size="sm"
-          icon={<ArrowBackIcon />}
-          isDisabled={!canMoveBack}
-          onClick={moveBack}
-        />
-        <IconButton
-          aria-label="forward button"
-          size="sm"
-          icon={<ArrowForwardIcon />}
-          isDisabled={!canMoveForward}
-          onClick={moveForward}
-        />
-        <PageCounter
-          currentPage={images.length === 0 ? 0 : imageIndex + 1}
-          totalPage={images.length}
-        />
-      </Header>
+      <Header
+        fileProps={{
+          onChange: handleFileChange,
+        }}
+        viewModeProps={{
+          viewMode,
+          onClick: toggleViewMode,
+        }}
+        fitModeProps={{
+          fitMode,
+          onClick: toggleFitMode,
+        }}
+        backProps={{
+          disabled: !canMoveBack,
+          onClick: moveBack,
+        }}
+        forwardProps={{
+          disabled: !canMoveForward,
+          onClick: moveForward,
+        }}
+        pageCounterProps={{
+          currentPage: images.length === 0 ? 0 : imageIndex + 1,
+          totalPage: images.length,
+        }}
+      />
       <main>
         <ImageView
           src={images[imageIndex]}
