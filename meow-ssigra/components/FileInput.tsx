@@ -1,3 +1,4 @@
+import { SUPPORT_FORMAT } from '@/constants';
 import { Input } from '@chakra-ui/react';
 
 type Props = {
@@ -5,10 +6,12 @@ type Props = {
 };
 
 export const FileInput: React.FC<Props> = ({ onChange }) => {
+  const accept = Object.values(SUPPORT_FORMAT).join(', ');
+
   return (
     <Input
       type="file"
-      accept="image/*"
+      accept={accept}
       multiple
       size="sm"
       width="500px"
